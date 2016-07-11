@@ -1,49 +1,5 @@
 #include <stdio.h>
-
-#define SENSOR_WIDTH  20
-#define SENSOR_HEIGHT 20
-
-#define SEARCHED	-1
-typedef union
-{
-	short pixel[SENSOR_HEIGHT * SENSOR_WIDTH];
-	short cell[SENSOR_HEIGHT][SENSOR_WIDTH];
-} FRAME_BUFFER_T, *FRAME_BUFFER_PTR_T;
-
-struct location {
-    unsigned int row;
-    unsigned int col;
-};
-
-struct node {
-	unsigned int index;
-	struct location position;
-	unsigned int count;
-	struct node *next;
-};
-
-short array[SENSOR_HEIGHT][SENSOR_WIDTH] = {
-		{1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,0,0,1,1,1,1,1,1,0,0,0,1,1,1,0,1,1},
-		{0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{0,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1},
-		{0,1,1,1,1,1,1,1,0,1,1,1,0,1,1,1,1,1,1,1},
-		{0,1,0,1,1,1,1,1,1,0,1,0,1,1,1,1,1,1,1,1},
-		{1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,0,1,1,1,1},
-		{1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,0,1,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-};
+#include "main.h"
 
 unsigned int searchNeighbors(int row, int col)
 {
@@ -64,8 +20,6 @@ unsigned int searchNeighbors(int row, int col)
 			if (array[x][y] == 0) {
 				count += searchNeighbors(x,y);
 			}
-			//else
-			//	array[x][y] = SEARCHED;
 		}
 	}
 	return count;
@@ -73,10 +27,9 @@ unsigned int searchNeighbors(int row, int col)
 
 int main(void)
 {
-	int i, count;
-	int currentClusterCount = 0;
+    unsigned int count = 0;
+    unsigned int currentClusterCount = 0;
 
-	count = 0;
 	for (int row=0; row<SENSOR_HEIGHT; row++) {
 		for (int col=0; col<SENSOR_WIDTH; col++) {
 			if (array[row][col] == 0) {
@@ -85,8 +38,6 @@ int main(void)
 					printf("Cluster %d, count %d\n", currentClusterCount++, count);
 				count = 0;
 			}
-			//else
-			//	array[row][col] = SEARCHED;
 		}
 	}
 
